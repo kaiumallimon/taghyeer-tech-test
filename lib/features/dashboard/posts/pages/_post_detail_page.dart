@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:taghyeer_test/features/dashboard/posts/models/_post_model.dart';
+import 'package:taghyeer_test/features/dashboard/posts/widgets/_post_stat_item.dart';
 
 class PostDetailPage extends StatelessWidget {
   const PostDetailPage({super.key, required this.post});
@@ -63,21 +64,21 @@ class PostDetailPage extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  _StatItem(
+                  PostStatItem(
                     icon: LucideIcons.eye,
                     label: 'Views',
                     value: '${post.views}',
                     color: cs.primary,
                   ),
-                  _Divider(),
-                  _StatItem(
+                  const PostStatDivider(),
+                  PostStatItem(
                     icon: LucideIcons.thumbsUp,
                     label: 'Likes',
                     value: '${post.reactions.likes}',
                     color: Colors.green.shade600,
                   ),
-                  _Divider(),
-                  _StatItem(
+                  const PostStatDivider(),
+                  PostStatItem(
                     icon: LucideIcons.thumbsDown,
                     label: 'Dislikes',
                     value: '${post.reactions.dislikes}',
@@ -130,47 +131,6 @@ class PostDetailPage extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class _StatItem extends StatelessWidget {
-  const _StatItem({
-    required this.icon,
-    required this.label,
-    required this.value,
-    required this.color,
-  });
-
-  final IconData icon;
-  final String label;
-  final String value;
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) {
-    final tt = Theme.of(context).textTheme;
-    return Column(
-      children: [
-        Icon(icon, size: 18, color: color),
-        const SizedBox(height: 4),
-        Text(value,
-            style: tt.titleSmall?.copyWith(fontWeight: FontWeight.w700)),
-        Text(label,
-            style: tt.labelSmall
-                ?.copyWith(color: Theme.of(context).colorScheme.onSurface.withAlpha(140))),
-      ],
-    );
-  }
-}
-
-class _Divider extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 1,
-      height: 36,
-      color: Theme.of(context).colorScheme.outlineVariant,
     );
   }
 }

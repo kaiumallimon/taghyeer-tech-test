@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taghyeer_test/features/auth/bloc/_auth_cubit.dart';
 import 'package:taghyeer_test/features/auth/widgets/_login_background.dart';
@@ -45,6 +46,17 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
 
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final overlayStyle = SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
+      systemNavigationBarColor: theme.colorScheme.surface,
+      systemNavigationBarIconBrightness: isDark
+          ? Brightness.light
+          : Brightness.dark,
+    );
+
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is AuthLoggedIn) {
@@ -64,39 +76,41 @@ class _LoginPageState extends State<LoginPage> {
         final isLoading = state is AuthLoading;
         final theme = Theme.of(context);
 
-        return Scaffold(
-          backgroundColor: theme.colorScheme.surface,
-          body: Stack(
-            children: [
-              const LoginBackground(),
-              SafeArea(
-                child: SingleChildScrollView(
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(minHeight: size.height),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 28),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 60),
-                          const LoginHeader(),
-                          const SizedBox(height: 48),
-                          LoginForm(
-                            usernameController: _usernameController,
-                            passwordController: _passwordController,
-                            isLoading: isLoading,
-                            onLoginPressed: _onLoginPressed,
-                          ),
-                          const SizedBox(height: 40),
-                          const LoginFooter(),
-                          const SizedBox(height: 32),
-                        ],
+        return AnnotatedRegion<SystemUiOverlayStyle>(
+          value: overlayStyle,
+          child: Scaffold(
+            backgroundColor: theme.colorScheme.surface,
+            body: Stack(
+              children: [
+                SafeArea(
+                  child: SingleChildScrollView(
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(minHeight: size.height),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 28),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 60),
+                            const LoginHeader(),
+                            const SizedBox(height: 48),
+                            LoginForm(
+                              usernameController: _usernameController,
+                              passwordController: _passwordController,
+                              isLoading: isLoading,
+                              onLoginPressed: _onLoginPressed,
+                            ),
+                            const SizedBox(height: 40),
+                            const LoginFooter(),
+                            const SizedBox(height: 32),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },

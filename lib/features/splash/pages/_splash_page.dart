@@ -17,58 +17,119 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<AuthCubit>().checkLogin();
     });
   }
 
   void _navigate(Widget page) {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (_) => page),
-    );
+    Future.delayed(const Duration(seconds: 2), () {
+      if (context.mounted) {
+        Navigator.of(
+          context,
+        ).pushReplacement(MaterialPageRoute(builder: (_) => page));
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final colors = theme.colorScheme;
 
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is AuthLoggedIn) {
           _navigate(const DashboardWrapper());
-        } else if (state is AuthUnauthenticated) {
+        }
+
+        if (state is AuthUnauthenticated) {
           _navigate(const LoginPage());
         }
       },
       child: Scaffold(
-        backgroundColor: theme.colorScheme.surface,
-        body: SafeArea(
-          child: Stack(
-            children: [
-              _logoText(theme),
-              _loadingIndicator(theme.colorScheme),
-            ],
+        body: Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [colors.primary.withAlpha(20), colors.surface],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+          child: SafeArea(
+            child: Column(
+              children: [
+                const Spacer(),
+
+                _buildLogo(theme),
+
+                const SizedBox(height: 24),
+
+                _buildTitle(theme),
+
+                const Spacer(),
+
+                _buildLoading(colors),
+
+                const SizedBox(height: 30),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Center _logoText(ThemeData theme) {
-    return Center(
-      child: Text(
-        AppConstants.splashText,
-        style: theme.textTheme.headlineMedium,
+  Widget _buildLogo(ThemeData theme) {
+    return Container(
+      width: 90,
+      height: 90,
+      decoration: BoxDecoration(
+        color: theme.colorScheme.primary,
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [
+          BoxShadow(
+            color: theme.colorScheme.primary.withAlpha(80),
+            blurRadius: 25,
+            offset: const Offset(0, 10),
+          ),
+        ],
       ),
+      child: Icon(Icons.tag, color: theme.colorScheme.onPrimary, size: 42),
     );
   }
 
-  Positioned _loadingIndicator(ColorScheme colorScheme) {
-    return Positioned(
-      bottom: 20,
-      left: 0,
-      right: 0,
-      child: CupertinoActivityIndicator(color: colorScheme.primary),
+  Widget _buildTitle(ThemeData theme) {
+    return Column(
+      children: [
+        Text(
+          AppConstants.appName,
+          style: theme.textTheme.headlineMedium?.copyWith(
+            fontWeight: FontWeight.bold,
+            letterSpacing: -0.5,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLoading(ColorScheme colors) {
+    return Column(
+      children: [
+        CupertinoActivityIndicator(color: colors.primary),
+
+        const SizedBox(height: 12),
+
+        Text(
+          "Please wait...",
+          style: TextStyle(
+            color: colors.onSurface.withAlpha(160),
+            fontSize: 13,
+          ),
+        ),
+      ],
     );
   }
 }
