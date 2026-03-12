@@ -31,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: theme.colorScheme.surface,
       body: Stack(
         children: [
-          // ── Background accent blobs ──────────────────────────────────
+          // Decorative blobs
           Positioned(
             top: -80,
             right: -60,
@@ -49,7 +49,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
 
-          // ── Main content ─────────────────────────────────────────────
+          // Main content
           SafeArea(
             child: SingleChildScrollView(
               child: ConstrainedBox(
@@ -61,49 +61,19 @@ class _LoginPageState extends State<LoginPage> {
                     children: [
                       const SizedBox(height: 60),
 
-                      // ── Brand logo ───────────────────────────────────
-                      Container(
-                        width: 56,
-                        height: 56,
-                        decoration: BoxDecoration(
-                          color: theme.colorScheme.primary,
-                          borderRadius: BorderRadius.circular(16),
-                          boxShadow: [
-                            BoxShadow(
-                              color: theme.colorScheme.primary.withAlpha(80),
-                              blurRadius: 20,
-                              offset: const Offset(0, 8),
-                            ),
-                          ],
-                        ),
-                        child: Icon(
-                          Icons.bolt_rounded,
-                          color: theme.colorScheme.onPrimary,
-                          size: 32,
-                        ),
-                      ),
+                      // Brand logo
+                      _brandLogo(theme),
 
                       const SizedBox(height: 32),
 
-                      // ── Headline ─────────────────────────────────────
-                      Text(
-                        AppConstants.loginTitle,
-                        style: theme.textTheme.headlineLarge?.copyWith(
-                          fontWeight: FontWeight.w800,
-                          letterSpacing: -0.5,
-                        ),
-                      ),
+                      // Headline
+                      _headlineWidget(theme),
                       const SizedBox(height: 8),
-                      Text(
-                        AppConstants.loginSubtitle,
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          color: theme.colorScheme.onSurface.withAlpha(160),
-                        ),
-                      ),
+                      _subtitleWidget(theme),
 
                       const SizedBox(height: 48),
 
-                      // ── Form ─────────────────────────────────────────
+                      // Form
                       CustomTextField(
                         hint: AppConstants.emailHint,
                         label: AppConstants.emailLabel,
@@ -122,26 +92,12 @@ class _LoginPageState extends State<LoginPage> {
 
                       const SizedBox(height: 12),
 
-                      // ── Forgot password ───────────────────────────────
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: GestureDetector(
-                          onTap: () {
-                            CustomSnackbar.show(context, message: "Not implemented yet");
-                          },
-                          child: Text(
-                            AppConstants.forgotPassword,
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              color: theme.colorScheme.primary,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ),
+                      // Forgot password
+                      _forgotPasswordWidget(context, theme),
 
                       const SizedBox(height: 12),
 
-                      // ── Sign-in button ────────────────────────────────
+                      // Sign-in button
                       CustomButton(
                         label: AppConstants.loginButtonLabel,
                         onPressed: () {},
@@ -150,7 +106,7 @@ class _LoginPageState extends State<LoginPage> {
 
                       const SizedBox(height: 40),
 
-                      // ── Sign-up prompt ────────────────────────────────
+                      // Sign-up prompt
                       _signupWidget(theme, context),
 
                       const SizedBox(height: 32),
@@ -163,6 +119,69 @@ class _LoginPageState extends State<LoginPage> {
         ],
       ),
     );
+  }
+
+  // Widget for the "Forgot Password?" link
+  Align _forgotPasswordWidget(BuildContext context, ThemeData theme) {
+    return Align(
+                      alignment: Alignment.centerRight,
+                      child: GestureDetector(
+                        onTap: () {
+                          CustomSnackbar.show(context, message: "Not implemented yet");
+                        },
+                        child: Text(
+                          AppConstants.forgotPassword,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: theme.colorScheme.primary,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    );
+  }
+
+  // Widget for the subtitle text
+  Text _subtitleWidget(ThemeData theme) {
+    return Text(
+                      AppConstants.loginSubtitle,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onSurface.withAlpha(160),
+                      ),
+                    );
+  }
+
+  // Widget for the headline text
+  Text _headlineWidget(ThemeData theme) {
+    return Text(
+                      AppConstants.loginTitle,
+                      style: theme.textTheme.headlineLarge?.copyWith(
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: -0.5,
+                      ),
+                    );
+  }
+  // Widget for the brand logo
+  Container _brandLogo(ThemeData theme) {
+    return Container(
+                      width: 56,
+                      height: 56,
+                      decoration: BoxDecoration(
+                        color: theme.colorScheme.primary,
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: theme.colorScheme.primary.withAlpha(80),
+                            blurRadius: 20,
+                            offset: const Offset(0, 8),
+                          ),
+                        ],
+                      ),
+                      child: Icon(
+                        Icons.tag,
+                        color: theme.colorScheme.onPrimary,
+                        size: 32,
+                      ),
+                    );
   }
 
   // Widget for the sign-up prompt with tappable "Sign Up" text
@@ -219,52 +238,3 @@ class _Blob extends StatelessWidget {
   }
 }
 
-class _SocialButton extends StatelessWidget {
-  const _SocialButton({
-    required this.label,
-    required this.icon,
-    required this.onTap,
-  });
-
-  final String label;
-  final IconData icon;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(12),
-      child: Container(
-        height: 52,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: theme.colorScheme.onSurface.withAlpha(40),
-            width: 1.5,
-          ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              icon,
-              size: 22,
-              color: theme.colorScheme.onSurface.withAlpha(200),
-            ),
-            const SizedBox(width: 8),
-            Text(
-              label,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.w600,
-                color: theme.colorScheme.onSurface.withAlpha(200),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
