@@ -11,38 +11,66 @@ class SettingsLogoutTile extends StatelessWidget {
     final cs = Theme.of(context).colorScheme;
     final tt = Theme.of(context).textTheme;
 
-    return Container(
-      decoration: BoxDecoration(
-        color: cs.surface,
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
         borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withAlpha(10),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: ListTile(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-          side: BorderSide(width: 1, color: cs.outline.withAlpha(30)),
-        ),
-        leading: Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: cs.errorContainer,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Icon(LucideIcons.logOut, size: 18, color: cs.onError),
-        ),
-        title: Text('Log Out', style: tt.titleSmall?.copyWith(color: cs.error)),
-        trailing: Icon(
-          LucideIcons.chevronRight,
-          size: 18,
-          color: cs.onSurface.withAlpha(100),
-        ),
         onTap: () => _confirmLogout(context),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          decoration: BoxDecoration(
+            color: cs.surface,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              width: 1,
+              color: cs.outline.withAlpha(30),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withAlpha(10),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Row(
+            children: [
+
+              /// icon container
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: cs.errorContainer,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Icon(
+                  LucideIcons.logOut,
+                  size: 18,
+                  color: cs.onError,
+                ),
+              ),
+
+              const SizedBox(width: 12),
+
+              /// title
+              Expanded(
+                child: Text(
+                  'Log Out',
+                  style: tt.titleSmall?.copyWith(
+                    color: cs.error,
+                  ),
+                ),
+              ),
+
+              /// arrow icon
+              Icon(
+                LucideIcons.chevronRight,
+                size: 18,
+                color: cs.onSurface.withAlpha(100),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -65,7 +93,9 @@ class SettingsLogoutTile extends StatelessWidget {
             child: const Text('Cancel'),
           ),
           FilledButton(
-            style: FilledButton.styleFrom(backgroundColor: cs.error),
+            style: FilledButton.styleFrom(
+              backgroundColor: cs.error,
+            ),
             onPressed: () {
               Navigator.pop(ctx);
               context.read<AuthCubit>().logout();

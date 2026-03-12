@@ -131,7 +131,7 @@ class ProductDetailPage extends StatelessWidget {
                   const Divider(),
                   const SizedBox(height: 16),
 
-                  // Details grid ─
+                  // Details grid
                   Text('Details', style: tt.titleLarge),
                   const SizedBox(height: 12),
                   ProductDetailsGrid(product: product),

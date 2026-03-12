@@ -37,14 +37,14 @@ class SettingsPage extends StatelessWidget {
 
             SizedBox(height: 24),
 
-            // Appearance ──
+            // Appearance
             SettingsSectionLabel(label: 'Appearance'),
             SizedBox(height: 10),
             SettingsAppearanceSection(),
 
             SizedBox(height: 32),
 
-            // Account ──
+            // Account
             SettingsSectionLabel(label: 'Account'),
             SizedBox(height: 10),
             SettingsLogoutTile(),
