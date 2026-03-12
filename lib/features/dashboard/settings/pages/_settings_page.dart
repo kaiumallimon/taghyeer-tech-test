@@ -32,19 +32,19 @@ class SettingsPage extends StatelessWidget {
         body: ListView(
           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           children: [
-            // ── User info ────────────────────────────────────────────────
+            // User info
             SettingsUserInfoCard(),
 
             SizedBox(height: 24),
 
-            // ── Appearance ───────────────────────────────────────────────
+            // Appearance ──
             SettingsSectionLabel(label: 'Appearance'),
             SizedBox(height: 10),
             SettingsAppearanceSection(),
 
             SizedBox(height: 32),
 
-            // ── Account ──────────────────────────────────────────────────
+            // Account ──
             SettingsSectionLabel(label: 'Account'),
             SizedBox(height: 10),
             SettingsLogoutTile(),

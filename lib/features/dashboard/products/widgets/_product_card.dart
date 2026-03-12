@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:transparent_image/transparent_image.dart';
 import 'package:taghyeer_test/features/dashboard/products/models/_product_model.dart';
 import 'package:taghyeer_test/features/dashboard/products/pages/_product_detail_page.dart';
 
@@ -44,10 +45,11 @@ class ProductCard extends StatelessWidget {
                   const BorderRadius.vertical(top: Radius.circular(16)),
               child: AspectRatio(
                 aspectRatio: 1,
-                child: Image.network(
-                  product.thumbnail,
+                child: FadeInImage.memoryNetwork(
+                  placeholder: kTransparentImage,
+                  image: product.thumbnail,
                   fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => Container(
+                  imageErrorBuilder: (_, __, ___) => Container(
                     color: cs.surfaceContainerHighest,
                     child: Icon(LucideIcons.image,
                         color: cs.onSurface.withAlpha(80)),

@@ -20,16 +20,15 @@ class ProductDetailPage extends StatelessWidget {
     final tt = Theme.of(context).textTheme;
     final discountedPrice =
         product.price * (1 - product.discountPercentage / 100);
-    final images =
-        product.images.isNotEmpty ? product.images : [product.thumbnail];
+    final images = product.images.isNotEmpty
+        ? product.images
+        : [product.thumbnail];
 
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          // ── Image carousel ─────────────────────────────────────────────
-          SliverToBoxAdapter(
-            child: ProductImageCarousel(images: images),
-          ),
+          // Image carousel
+          SliverToBoxAdapter(child: ProductImageCarousel(images: images)),
 
           SliverToBoxAdapter(
             child: Padding(
@@ -37,26 +36,30 @@ class ProductDetailPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // ── Category & brand chips ───────────────────────────
+                  // Category & brand chips
                   Wrap(
                     spacing: 8,
                     children: [
-                      ProductChip(label: product.category, icon: LucideIcons.tag),
+                      ProductChip(
+                        label: product.category,
+                        icon: LucideIcons.tag,
+                      ),
                       if (product.brand != null)
                         ProductChip(
-                            label: product.brand!,
-                            icon: LucideIcons.building2),
+                          label: product.brand!,
+                          icon: LucideIcons.building2,
+                        ),
                     ],
                   ),
 
                   const SizedBox(height: 12),
 
-                  // ── Title ────────────────────────────────────────────
+                  // Title
                   Text(product.title, style: tt.displaySmall),
 
                   const SizedBox(height: 10),
 
-                  // ── Rating & Stock ───────────────────────────────────
+                  // Rating & Stock
                   Row(
                     children: [
                       ProductStarRating(rating: product.rating),
@@ -72,15 +75,17 @@ class ProductDetailPage extends StatelessWidget {
 
                   const SizedBox(height: 16),
 
-                  // ── Price ────────────────────────────────────────────
+                  // Price
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.baseline,
                     textBaseline: TextBaseline.alphabetic,
                     children: [
                       Text(
                         '\$${discountedPrice.toStringAsFixed(2)}',
-                        style: tt.headlineLarge
-                            ?.copyWith(color: cs.primary, fontSize: 28),
+                        style: tt.headlineLarge?.copyWith(
+                          color: cs.primary,
+                          fontSize: 28,
+                        ),
                       ),
                       const SizedBox(width: 10),
                       if (product.discountPercentage > 0) ...[
@@ -94,7 +99,9 @@ class ProductDetailPage extends StatelessWidget {
                         const SizedBox(width: 8),
                         Container(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 3),
+                            horizontal: 8,
+                            vertical: 3,
+                          ),
                           decoration: BoxDecoration(
                             color: Colors.green.withAlpha(30),
                             borderRadius: BorderRadius.circular(6),
@@ -115,7 +122,7 @@ class ProductDetailPage extends StatelessWidget {
                   const Divider(),
                   const SizedBox(height: 16),
 
-                  // ── Description ──────────────────────────────────────
+                  // Description
                   Text('Description', style: tt.titleLarge),
                   const SizedBox(height: 8),
                   Text(product.description, style: tt.bodyMedium),
@@ -124,7 +131,7 @@ class ProductDetailPage extends StatelessWidget {
                   const Divider(),
                   const SizedBox(height: 16),
 
-                  // ── Details grid ─────────────────────────────────────
+                  // Details grid ─
                   Text('Details', style: tt.titleLarge),
                   const SizedBox(height: 12),
                   ProductDetailsGrid(product: product),
@@ -133,15 +140,16 @@ class ProductDetailPage extends StatelessWidget {
                   const Divider(),
                   const SizedBox(height: 16),
 
-                  // ── Tags ─────────────────────────────────────────────
+                  // Tags
                   Text('Tags', style: tt.titleLarge),
                   const SizedBox(height: 8),
                   Wrap(
                     spacing: 8,
                     runSpacing: 8,
                     children: product.tags
-                        .map((t) =>
-                            ProductChip(label: t, icon: LucideIcons.hash))
+                        .map(
+                          (t) => ProductChip(label: t, icon: LucideIcons.hash),
+                        )
                         .toList(),
                   ),
 
@@ -149,7 +157,7 @@ class ProductDetailPage extends StatelessWidget {
                   const Divider(),
                   const SizedBox(height: 16),
 
-                  // ── Shipping info ────────────────────────────────────
+                  // Shipping info
                   Text('Policies', style: tt.titleLarge),
                   const SizedBox(height: 12),
                   ProductInfoTile(
@@ -180,12 +188,10 @@ class ProductDetailPage extends StatelessWidget {
                   const Divider(),
                   const SizedBox(height: 16),
 
-                  // ── Reviews ──────────────────────────────────────────
+                  // Reviews
                   Text('Reviews', style: tt.titleLarge),
                   const SizedBox(height: 12),
-                  ...product.reviews
-                      .map((r) => ProductReviewCard(review: r))
-                      .toList(),
+                  ...product.reviews.map((r) => ProductReviewCard(review: r)),
 
                   const SizedBox(height: 32),
                 ],

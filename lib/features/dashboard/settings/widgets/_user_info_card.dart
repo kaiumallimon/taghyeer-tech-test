@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:transparent_image/transparent_image.dart';
 import 'package:taghyeer_test/features/auth/bloc/_auth_cubit.dart';
 
 class SettingsUserInfoCard extends StatelessWidget {
@@ -51,10 +52,11 @@ class SettingsUserInfoCard extends StatelessWidget {
             ),
             clipBehavior: Clip.antiAlias,
             child: imageUrl != null && imageUrl.isNotEmpty
-                ? Image.network(
-                    imageUrl,
+                ? FadeInImage.memoryNetwork(
+                    placeholder: kTransparentImage,
+                    image: imageUrl,
                     fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => Icon(
+                    imageErrorBuilder: (_, __, ___) => Icon(
                       LucideIcons.user,
                       size: 40,
                       color: cs.onPrimaryContainer,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class ProductImageCarousel extends StatefulWidget {
   const ProductImageCarousel({super.key, required this.images});
@@ -39,10 +40,11 @@ class _ProductImageCarouselState extends State<ProductImageCarousel> {
             controller: _pageController,
             itemCount: images.length,
             onPageChanged: (i) => setState(() => _currentIndex = i),
-            itemBuilder: (context, index) => Image.network(
-              images[index],
+            itemBuilder: (context, index) => FadeInImage.memoryNetwork(
+              placeholder: kTransparentImage,
+              image: images[index],
               fit: BoxFit.contain,
-              errorBuilder: (_, __, ___) => Container(
+              imageErrorBuilder: (_, __, ___) => Container(
                 color: cs.surfaceContainerHighest,
                 child: Icon(LucideIcons.image,
                     size: 56, color: cs.onSurface.withAlpha(80)),

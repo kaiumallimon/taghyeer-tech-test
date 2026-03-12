@@ -22,7 +22,7 @@ class PostDetailPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ── Tags ────────────────────────────────────────────────────────
+            // Tags ──
             if (post.tags.isNotEmpty)
               Wrap(
                 spacing: 8,
@@ -48,12 +48,12 @@ class PostDetailPage extends StatelessWidget {
 
             const SizedBox(height: 16),
 
-            // ── Title ────────────────────────────────────────────────────────
+            // Title ──
             Text(post.title, style: tt.headlineSmall),
 
             const SizedBox(height: 16),
 
-            // ── Stats row ───────────────────────────────────────────────────
+            // Stats row
             Container(
               padding:
                   const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -92,7 +92,7 @@ class PostDetailPage extends StatelessWidget {
             const Divider(),
             const SizedBox(height: 16),
 
-            // ── Body ────────────────────────────────────────────────────────
+            // Body ──
             Text('Content', style: tt.titleLarge),
             const SizedBox(height: 10),
             Text(post.body, style: tt.bodyMedium?.copyWith(height: 1.7)),
@@ -101,7 +101,7 @@ class PostDetailPage extends StatelessWidget {
             const Divider(),
             const SizedBox(height: 16),
 
-            // ── Author ──────────────────────────────────────────────────────
+            // Author
             Row(
               children: [
                 Container(
