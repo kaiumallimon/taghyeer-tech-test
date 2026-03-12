@@ -17,7 +17,9 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    context.read<AuthCubit>().checkLogin();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<AuthCubit>().checkLogin();
+    });
   }
 
   void _navigate(Widget page) {
