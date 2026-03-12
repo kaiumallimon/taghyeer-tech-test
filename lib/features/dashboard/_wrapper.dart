@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:taghyeer_test/features/dashboard/posts/pages/_post_page.dart';
 import 'package:taghyeer_test/features/dashboard/products/pages/_product_page.dart';
@@ -19,7 +20,18 @@ class _DashboardWrapperState extends State<DashboardWrapper> {
 
   @override
   Widget build(BuildContext context) {
+
+    final theme = Theme.of(context);
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: theme.colorScheme.surface,
+        statusBarIconBrightness: theme.colorScheme.brightness==Brightness.dark? Brightness.light:Brightness.dark,
+        systemNavigationBarColor: theme.colorScheme.surface,
+        systemNavigationBarIconBrightness: theme.colorScheme.brightness==Brightness.dark? Brightness.light:Brightness.dark,
+      )
+    );
     return Scaffold(
+      backgroundColor: theme.colorScheme.surface,
       body: SafeArea(
         child: IndexedStack(index: _currentIndex, children: _pages),
       ),

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalStorage {
@@ -10,6 +11,7 @@ class LocalStorage {
   static const String _userKey = 'user';
   static const String _accessTokenKey = 'access_token';
   static const String _refreshTokenKey = 'refresh_token';
+  static const String _themeModeKey = 'theme_mode';
 
   static void init(SharedPreferences prefs) {
     _prefs = prefs;
@@ -52,5 +54,18 @@ class LocalStorage {
   static Future<void> clearAll() async {
     await clearUser();
     await clearTokens();
+  }
+
+  // Theme mode
+  static Future<void> saveThemeMode(ThemeMode mode) async {
+    await _prefs.setString(_themeModeKey, mode.name);
+  }
+
+  static ThemeMode fetchThemeMode() {
+    final value = _prefs.getString(_themeModeKey);
+    return ThemeMode.values.firstWhere(
+      (m) => m.name == value,
+      orElse: () => ThemeMode.system,
+    );
   }
 }

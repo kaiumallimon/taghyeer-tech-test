@@ -9,6 +9,7 @@ import 'package:taghyeer_test/features/dashboard/posts/repository/_post_reposito
 import 'package:taghyeer_test/features/dashboard/products/bloc/_product_cubit.dart';
 import 'package:taghyeer_test/features/dashboard/products/repository/_product_repository.dart';
 import 'package:taghyeer_test/features/splash/pages/_splash_page.dart';
+import 'package:taghyeer_test/shared/bloc/_theme_cubit.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -46,13 +47,18 @@ class MyApp extends StatelessWidget {
           BlocProvider<PostCubit>(
             create: (ctx) => PostCubit(ctx.read<PostRepository>()),
           ),
+          BlocProvider<ThemeCubit>(
+            create: (_) => ThemeCubit(),
+          ),
         ],
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: AppTheme.light,
-          darkTheme: AppTheme.dark,
-          themeMode: ThemeMode.system,
-          home: const SplashPage(),
+        child: BlocBuilder<ThemeCubit, ThemeMode>(
+          builder: (context, themeMode) => MaterialApp(
+            debugShowCheckedModeBanner: false,
+            theme: AppTheme.light,
+            darkTheme: AppTheme.dark,
+            themeMode: themeMode,
+            home: const SplashPage(),
+          ),
         ),
       ),
     );

@@ -7,12 +7,12 @@ abstract final class AppTheme {
   static const _secondary = CupertinoColors.activeOrange;
 
   // Light background colors
-  static const _bgLight = Color(0xFFF2F2F7);
+  static const _bgLight = Color.fromARGB(255, 255, 255, 255);
   static const _surfaceLight = Color(0xFFFFFFFF);
   static const _surfaceContainerLight = Color(0xFFEFEFF4);
 
   // Dark background colors
-  static const _bgDark = Color(0xFF000000);
+  static const _bgDark = Color(0xFF1C1C1E);
   static const _surfaceDark = Color(0xFF1C1C1E);
   static const _surfaceContainerDark = Color(0xFF2C2C2E);
 
