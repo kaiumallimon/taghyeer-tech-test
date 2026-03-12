@@ -98,7 +98,7 @@ class Product {
   final double rating;
   final int stock;
   final List<String> tags;
-  final String brand;
+  final String? brand;
   final String sku;
   final double weight;
   final ProductDimensions dimensions;
@@ -148,7 +148,7 @@ class Product {
       rating: (json['rating'] as num).toDouble(),
       stock: json['stock'] as int,
       tags: List<String>.from(json['tags'] as List),
-      brand: json['brand'] as String,
+      brand: json['brand'] as String?,
       sku: json['sku'] as String,
       weight: (json['weight'] as num).toDouble(),
       dimensions: ProductDimensions.fromJson(

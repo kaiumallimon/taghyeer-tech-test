@@ -2,35 +2,108 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:taghyeer_test/features/dashboard/products/models/_product_model.dart';
 
-class ProductDetailPage extends StatelessWidget {
+class ProductDetailPage extends StatefulWidget {
   const ProductDetailPage({super.key, required this.product});
 
   final Product product;
 
   @override
+  State<ProductDetailPage> createState() => _ProductDetailPageState();
+}
+
+class _ProductDetailPageState extends State<ProductDetailPage> {
+  late final PageController _pageController;
+  int _currentImageIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final product = widget.product;
     final cs = Theme.of(context).colorScheme;
     final tt = Theme.of(context).textTheme;
     final discountedPrice =
         product.price * (1 - product.discountPercentage / 100);
+    final images = product.images.isNotEmpty ? product.images : [product.thumbnail];
 
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          // ── App bar with hero image ──────────────────────────────────────
-          SliverAppBar(
-            expandedHeight: 300,
-            pinned: true,
-            flexibleSpace: FlexibleSpaceBar(
-              background: Image.network(
-                product.thumbnail,
-                fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) => Container(
-                  color: cs.surfaceContainerHighest,
-                  child: Icon(LucideIcons.image,
-                      size: 56, color: cs.onSurface.withAlpha(80)),
+          // ── Image carousel ───────────────────────────────────────────────
+          SliverToBoxAdapter(
+            child: Stack(
+              children: [
+                SizedBox(
+                  height: 400,
+                  child: PageView.builder(
+                    controller: _pageController,
+                    itemCount: images.length,
+                    onPageChanged: (i) =>
+                        setState(() => _currentImageIndex = i),
+                    itemBuilder: (context, index) => Image.network(
+                      images[index],
+                      fit: BoxFit.contain,
+                      errorBuilder: (_, __, ___) => Container(
+                        color: cs.surfaceContainerHighest,
+                        child: Icon(LucideIcons.image,
+                            size: 56, color: cs.onSurface.withAlpha(80)),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
+                // Back button
+                Positioned(
+                  top: MediaQuery.of(context).padding.top + 8,
+                  left: 12,
+                  child: Material(
+                    color: cs.surface.withAlpha(220),
+                    shape: const CircleBorder(),
+                    child: InkWell(
+                      customBorder: const CircleBorder(),
+                      onTap: () => Navigator.pop(context),
+                      child: const Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Icon(LucideIcons.arrowLeft, size: 22),
+                      ),
+                    ),
+                  ),
+                ),
+                // Dot indicators
+                if (images.length > 1)
+                  Positioned(
+                    bottom: 12,
+                    left: 0,
+                    right: 0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(
+                        images.length,
+                        (i) => AnimatedContainer(
+                          duration: const Duration(milliseconds: 200),
+                          margin: const EdgeInsets.symmetric(horizontal: 3),
+                          width: _currentImageIndex == i ? 18 : 6,
+                          height: 6,
+                          decoration: BoxDecoration(
+                            color: _currentImageIndex == i
+                                ? cs.primary
+                                : cs.surface.withAlpha(200),
+                            borderRadius: BorderRadius.circular(3),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
             ),
           ),
 
@@ -45,7 +118,10 @@ class ProductDetailPage extends StatelessWidget {
                     spacing: 8,
                     children: [
                       _Chip(label: product.category, icon: LucideIcons.tag),
-                      _Chip(label: product.brand, icon: LucideIcons.building2),
+                      if (product.brand != null)
+                        _Chip(
+                            label: product.brand!,
+                            icon: LucideIcons.building2),
                     ],
                   ),
 

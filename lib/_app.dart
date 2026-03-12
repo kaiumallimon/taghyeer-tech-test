@@ -4,6 +4,8 @@ import 'package:taghyeer_test/core/constants/_app_theme.dart';
 import 'package:taghyeer_test/core/network/_dio_client.dart';
 import 'package:taghyeer_test/features/auth/bloc/_auth_cubit.dart';
 import 'package:taghyeer_test/features/auth/repository/_auth_repository.dart';
+import 'package:taghyeer_test/features/dashboard/posts/bloc/_post_cubit.dart';
+import 'package:taghyeer_test/features/dashboard/posts/repository/_post_repository.dart';
 import 'package:taghyeer_test/features/dashboard/products/bloc/_product_cubit.dart';
 import 'package:taghyeer_test/features/dashboard/products/repository/_product_repository.dart';
 import 'package:taghyeer_test/features/splash/pages/_splash_page.dart';
@@ -24,6 +26,9 @@ class MyApp extends StatelessWidget {
         RepositoryProvider<ProductRepository>(
           create: (ctx) => ProductRepository(ctx.read<DioClient>()),
         ),
+        RepositoryProvider<PostRepository>(
+          create: (ctx) => PostRepository(ctx.read<DioClient>()),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -37,6 +42,9 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider<ProductCubit>(
             create: (ctx) => ProductCubit(ctx.read<ProductRepository>()),
+          ),
+          BlocProvider<PostCubit>(
+            create: (ctx) => PostCubit(ctx.read<PostRepository>()),
           ),
         ],
         child: MaterialApp(
