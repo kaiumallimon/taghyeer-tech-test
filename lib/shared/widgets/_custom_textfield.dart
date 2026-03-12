@@ -93,10 +93,6 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 width: 2,
               ),
             ),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 16,
-            ),
           ),
         ),
       ],
