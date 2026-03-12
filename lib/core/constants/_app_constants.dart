@@ -16,4 +16,6 @@ class AppConstants {
   static const String apiBaseUrl = 'https://dummyjson.com';
   static const int apiConnectTimeoutSeconds = 10;
   static const int apiReceiveTimeoutSeconds = 10;
+
+  static const String loginApiEndpoint = '/auth/login';
 }
