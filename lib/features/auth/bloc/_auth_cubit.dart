@@ -9,20 +9,25 @@ class AuthCubit extends Cubit<AuthState> {
 
   AuthCubit(this.repo) : super(AuthInitial());
 
-
   // method for login
   Future<void> login({required String username, required String password}) async {
-    // emit loading state
     emit(AuthLoading());
     try {
-      // fetch user data from repository
-      final userData = await repo.login(username: username, password: password);
+      final response = await repo.login(username: username, password: password);
 
-      // store in local storage
-      await LocalStorage.saveUser(userData);
+      // Save tokens separately
+      await LocalStorage.saveTokens(
+        accessToken: response['accessToken'] as String,
+        refreshToken: response['refreshToken'] as String,
+      );
 
-      // emit logged in state with user data
-      emit(AuthLoggedIn(userData));
+      // Save user profile without tokens
+      final userProfile = Map<String, dynamic>.from(response)
+        ..remove('accessToken')
+        ..remove('refreshToken');
+      await LocalStorage.saveUser(userProfile);
+
+      emit(AuthLoggedIn(userProfile));
     } catch (e) {
       emit(AuthError(e.toString()));
     }
@@ -30,10 +35,10 @@ class AuthCubit extends Cubit<AuthState> {
 
   // method to check if user is already logged in
   Future<void> checkLogin() async {
-    final userData = await LocalStorage.fetchUser();
-
-    if (userData != null) {
-      emit(AuthLoggedIn(userData));
+    final token = LocalStorage.fetchAccessToken();
+    if (token != null) {
+      final userData = LocalStorage.fetchUser();
+      emit(AuthLoggedIn(userData ?? {}));
     } else {
       emit(AuthUnauthenticated());
     }
@@ -41,7 +46,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   // method for logout
   Future<void> logout() async {
-    await LocalStorage.clearUser();
+    await LocalStorage.clearAll();
     emit(AuthUnauthenticated());
   }
 }

@@ -18,4 +18,5 @@ class AppConstants {
   static const int apiReceiveTimeoutSeconds = 10;
 
   static const String loginApiEndpoint = '/auth/login';
+  static const String refreshTokenEndpoint = '/auth/refresh';
 }

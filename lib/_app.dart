@@ -23,7 +23,12 @@ class MyApp extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider<AuthCubit>(
-            create: (ctx) => AuthCubit(ctx.read<AuthRepository>()),
+            create: (ctx) {
+              final cubit = AuthCubit(ctx.read<AuthRepository>());
+              // forced logout when token refresh fails
+              ctx.read<DioClient>().onUnauthorized = cubit.logout;
+              return cubit;
+            },
           ),
         ],
         child: MaterialApp(
