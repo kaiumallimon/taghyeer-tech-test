@@ -4,6 +4,8 @@ import 'package:taghyeer_test/core/constants/_app_theme.dart';
 import 'package:taghyeer_test/core/network/_dio_client.dart';
 import 'package:taghyeer_test/features/auth/bloc/_auth_cubit.dart';
 import 'package:taghyeer_test/features/auth/repository/_auth_repository.dart';
+import 'package:taghyeer_test/features/dashboard/products/bloc/_product_cubit.dart';
+import 'package:taghyeer_test/features/dashboard/products/repository/_product_repository.dart';
 import 'package:taghyeer_test/features/splash/pages/_splash_page.dart';
 
 class MyApp extends StatelessWidget {
@@ -19,6 +21,9 @@ class MyApp extends StatelessWidget {
         RepositoryProvider<AuthRepository>(
           create: (ctx) => AuthRepository(ctx.read<DioClient>()),
         ),
+        RepositoryProvider<ProductRepository>(
+          create: (ctx) => ProductRepository(ctx.read<DioClient>()),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -29,6 +34,9 @@ class MyApp extends StatelessWidget {
               ctx.read<DioClient>().onUnauthorized = cubit.logout;
               return cubit;
             },
+          ),
+          BlocProvider<ProductCubit>(
+            create: (ctx) => ProductCubit(ctx.read<ProductRepository>()),
           ),
         ],
         child: MaterialApp(
