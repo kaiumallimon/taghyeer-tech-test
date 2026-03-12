@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taghyeer_test/core/constants/_app_constants.dart';
 import 'package:taghyeer_test/features/auth/bloc/_auth_cubit.dart';
@@ -37,44 +38,56 @@ class _SplashPageState extends State<SplashPage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
+    final isDark = theme.brightness == Brightness.dark;
+    final overlayStyle = SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
+      systemNavigationBarColor: colors.surface,
+      systemNavigationBarIconBrightness: isDark
+          ? Brightness.light
+          : Brightness.dark,
+    );
 
-    return BlocListener<AuthCubit, AuthState>(
-      listener: (context, state) {
-        if (state is AuthLoggedIn) {
-          _navigate(const DashboardWrapper());
-        }
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: overlayStyle,
+      child: BlocListener<AuthCubit, AuthState>(
+        listener: (context, state) {
+          if (state is AuthLoggedIn) {
+            _navigate(const DashboardWrapper());
+          }
 
-        if (state is AuthUnauthenticated) {
-          _navigate(const LoginPage());
-        }
-      },
-      child: Scaffold(
-        body: Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [colors.primary.withAlpha(20), colors.surface],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
+          if (state is AuthUnauthenticated) {
+            _navigate(const LoginPage());
+          }
+        },
+        child: Scaffold(
+          body: Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [colors.primary.withAlpha(20), colors.surface],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
             ),
-          ),
-          child: SafeArea(
-            child: Column(
-              children: [
-                const Spacer(),
+            child: SafeArea(
+              child: Column(
+                children: [
+                  const Spacer(),
 
-                _buildLogo(theme),
+                  _buildLogo(theme),
 
-                const SizedBox(height: 24),
+                  const SizedBox(height: 24),
 
-                _buildTitle(theme),
+                  _buildTitle(theme),
 
-                const Spacer(),
+                  const Spacer(),
 
-                _buildLoading(colors),
+                  _buildLoading(colors),
 
-                const SizedBox(height: 30),
-              ],
+                  const SizedBox(height: 30),
+                ],
+              ),
             ),
           ),
         ),
