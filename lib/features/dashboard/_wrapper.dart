@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons/lucide_icons.dart';
+import 'package:taghyeer_test/features/dashboard/posts/pages/_post_page.dart';
+import 'package:taghyeer_test/features/dashboard/products/pages/_product_page.dart';
+import 'package:taghyeer_test/features/dashboard/settings/pages/_settings_page.dart';
 
 class DashboardWrapper extends StatefulWidget {
   const DashboardWrapper({super.key});
@@ -8,30 +12,37 @@ class DashboardWrapper extends StatefulWidget {
 }
 
 class _DashboardWrapperState extends State<DashboardWrapper> {
+  // current page state and list of pages
   int _currentIndex = 0;
-  final List<Widget> _pages = [
-    // ProductPage(),
-    // PostPage(),
-    // SettingsPage(),
-    Placeholder(),
-    Placeholder(),
-    Placeholder(),
-  ];
+
+  final List<Widget> _pages = [ProductPage(), PostPage(), SettingsPage()];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: IndexedStack(index: _currentIndex, children: _pages),
       ),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: _currentIndex,
-        onDestinationSelected: (index) => setState(() => _currentIndex = index),
-        destinations: const [
-          NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
-          NavigationDestination(icon: Icon(Icons.post_add), label: 'Posts'),
-          NavigationDestination(icon: Icon(Icons.settings), label: 'Settings'),
-        ],
-      ),
+      bottomNavigationBar: _buildBottomNavBar(),
+    );
+  }
+
+  // bottom navigation bar to switch between pages
+  NavigationBar _buildBottomNavBar() {
+    return NavigationBar(
+      selectedIndex: _currentIndex,
+      onDestinationSelected: (index) => setState(() => _currentIndex = index),
+      destinations: const [
+        NavigationDestination(
+          icon: Icon(LucideIcons.package),
+          label: 'Products',
+        ),
+        NavigationDestination(icon: Icon(LucideIcons.fileText), label: 'Posts'),
+        NavigationDestination(
+          icon: Icon(LucideIcons.settings),
+          label: 'Settings',
+        ),
+      ],
     );
   }
 }

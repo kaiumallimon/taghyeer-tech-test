@@ -38,6 +38,8 @@ dependencies:
   dio: ^5.9.2
   shared_preferences: ^2.5.4
   equatable: ^2.0.8
+  lucide_icons: ^0.257.0
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:

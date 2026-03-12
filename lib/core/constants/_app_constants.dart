@@ -19,4 +19,7 @@ class AppConstants {
 
   static const String loginApiEndpoint = '/auth/login';
   static const String refreshTokenEndpoint = '/auth/refresh';
+
+  static const String productsEndpoint = '/products';
+  static const String postsEndpoint = '/posts';
 }
