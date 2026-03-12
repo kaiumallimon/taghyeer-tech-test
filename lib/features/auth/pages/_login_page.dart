@@ -15,18 +15,18 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   @override
   void dispose() {
-    _emailController.dispose();
+    _usernameController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
 
   void _onLoginPressed() {
-    final username = _emailController.text.trim();
+    final username = _usernameController.text.trim();
     final password = _passwordController.text.trim();
     if (username.isEmpty || password.isEmpty) {
       CustomSnackbar.show(
@@ -111,9 +111,9 @@ class _LoginPageState extends State<LoginPage> {
 
                           // Form
                           CustomTextField(
-                            hint: AppConstants.emailHint,
-                            label: AppConstants.emailLabel,
-                            controller: _emailController,
+                            hint: AppConstants.userNameHint,
+                            label: AppConstants.userNameLabel,
+                            controller: _usernameController,
                             keyboardType: TextInputType.text,
                             prefixIcon: Icons.person_outline_rounded,
                           ),

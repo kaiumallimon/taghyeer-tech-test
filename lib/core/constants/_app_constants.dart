@@ -3,8 +3,8 @@ class AppConstants {
   static const String appName = 'Taghyeer';
   static const String loginTitle = 'Welcome Back!';
   static const String loginSubtitle = 'Sign in to continue to your account';
-  static const String emailLabel = 'Username';
-  static const String emailHint = 'e.g. emilys';
+  static const String userNameLabel = 'Username';
+  static const String userNameHint = 'e.g. emilys';
   static const String passwordLabel = 'Password';
   static const String passwordHint = 'Enter your password';
   static const String loginButtonLabel = 'Sign In';
