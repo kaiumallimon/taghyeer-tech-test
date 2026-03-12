@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taghyeer_test/features/auth/bloc/_auth_cubit.dart';
-import 'package:taghyeer_test/features/auth/widgets/_login_background.dart';
 import 'package:taghyeer_test/features/auth/widgets/_login_footer.dart';
 import 'package:taghyeer_test/features/auth/widgets/_login_form.dart';
 import 'package:taghyeer_test/features/auth/widgets/_login_header.dart';
