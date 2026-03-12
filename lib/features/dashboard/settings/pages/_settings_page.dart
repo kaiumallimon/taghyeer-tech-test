@@ -43,6 +43,7 @@ class SettingsPage extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: cs.surface,
+                border: Border.all(color: cs.outlineVariant.withAlpha(30)),
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
@@ -64,10 +65,10 @@ class SettingsPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 14),
                   BlocBuilder<ThemeCubit, ThemeMode>(
-                    builder: (context, mode) =>
-                        SegmentedButton<ThemeMode>(
+                    builder: (context, mode) => SegmentedButton<ThemeMode>(
                       style: SegmentedButton.styleFrom(
                         visualDensity: VisualDensity.compact,
+                        side: BorderSide(color: cs.outlineVariant.withAlpha(30)),
                       ),
                       segments: const [
                         ButtonSegment(
@@ -124,8 +125,8 @@ class _UserInfoCard extends StatelessWidget {
           : {},
     );
 
-    final name =
-        '${userData['firstName'] ?? ''} ${userData['lastName'] ?? ''}'.trim();
+    final name = '${userData['firstName'] ?? ''} ${userData['lastName'] ?? ''}'
+        .trim();
     final username = userData['username'] as String? ?? '';
     final email = userData['email'] as String? ?? '';
     final imageUrl = userData['image'] as String?;
@@ -135,6 +136,7 @@ class _UserInfoCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 28, horizontal: 20),
       decoration: BoxDecoration(
         color: cs.surface,
+        border: Border.all(color: cs.outlineVariant.withAlpha(30)),
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -166,8 +168,11 @@ class _UserInfoCard extends StatelessWidget {
                       color: cs.onPrimaryContainer,
                     ),
                   )
-                : Icon(LucideIcons.user, size: 40,
-                    color: cs.onPrimaryContainer),
+                : Icon(
+                    LucideIcons.user,
+                    size: 40,
+                    color: cs.onPrimaryContainer,
+                  ),
           ),
           const SizedBox(height: 14),
           if (name.isNotEmpty)
@@ -187,8 +192,7 @@ class _UserInfoCard extends StatelessWidget {
           if (email.isNotEmpty) ...[
             const SizedBox(height: 8),
             Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
               decoration: BoxDecoration(
                 color: cs.surfaceContainerHighest,
                 borderRadius: BorderRadius.circular(20),
@@ -196,13 +200,17 @@ class _UserInfoCard extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(LucideIcons.mail,
-                      size: 13, color: cs.onSurface.withAlpha(140)),
+                  Icon(
+                    LucideIcons.mail,
+                    size: 13,
+                    color: cs.onSurface.withAlpha(140),
+                  ),
                   const SizedBox(width: 6),
                   Text(
                     email,
-                    style: tt.bodySmall
-                        ?.copyWith(color: cs.onSurface.withAlpha(160)),
+                    style: tt.bodySmall?.copyWith(
+                      color: cs.onSurface.withAlpha(160),
+                    ),
                   ),
                 ],
               ),
@@ -235,7 +243,10 @@ class _LogoutTile extends StatelessWidget {
         ],
       ),
       child: ListTile(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+          side: BorderSide(width: 1, color: cs.outline.withAlpha(30)),
+        ),
         leading: Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
@@ -244,10 +255,12 @@ class _LogoutTile extends StatelessWidget {
           ),
           child: Icon(LucideIcons.logOut, size: 18, color: cs.onError),
         ),
-        title: Text('Log Out',
-            style: tt.titleSmall?.copyWith(color: cs.error)),
-        trailing: Icon(LucideIcons.chevronRight,
-            size: 18, color: cs.onSurface.withAlpha(100)),
+        title: Text('Log Out', style: tt.titleSmall?.copyWith(color: cs.error)),
+        trailing: Icon(
+          LucideIcons.chevronRight,
+          size: 18,
+          color: cs.onSurface.withAlpha(100),
+        ),
         onTap: () => _confirmLogout(context),
       ),
     );
@@ -261,8 +274,10 @@ class _LogoutTile extends StatelessWidget {
       context: context,
       builder: (ctx) => AlertDialog(
         title: Text('Log Out', style: tt.titleLarge),
-        content: Text('Are you sure you want to log out?',
-            style: tt.bodyMedium),
+        content: Text(
+          'Are you sure you want to log out?',
+          style: tt.bodyMedium,
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),

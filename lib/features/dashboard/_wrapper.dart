@@ -20,22 +20,25 @@ class _DashboardWrapperState extends State<DashboardWrapper> {
 
   @override
   Widget build(BuildContext context) {
-
     final theme = Theme.of(context);
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        statusBarColor: theme.colorScheme.surface,
-        statusBarIconBrightness: theme.colorScheme.brightness==Brightness.dark? Brightness.light:Brightness.dark,
-        systemNavigationBarColor: theme.colorScheme.surface,
-        systemNavigationBarIconBrightness: theme.colorScheme.brightness==Brightness.dark? Brightness.light:Brightness.dark,
-      )
+    final isDark = theme.brightness == Brightness.dark;
+    final overlayStyle = SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
+      systemNavigationBarColor: theme.colorScheme.surface,
+      systemNavigationBarIconBrightness:
+          isDark ? Brightness.light : Brightness.dark,
     );
-    return Scaffold(
-      backgroundColor: theme.colorScheme.surface,
-      body: SafeArea(
-        child: IndexedStack(index: _currentIndex, children: _pages),
+
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: overlayStyle,
+      child: Scaffold(
+        backgroundColor: theme.colorScheme.surface,
+        body: SafeArea(
+          child: IndexedStack(index: _currentIndex, children: _pages),
+        ),
+        bottomNavigationBar: _buildBottomNavBar(),
       ),
-      bottomNavigationBar: _buildBottomNavBar(),
     );
   }
 
