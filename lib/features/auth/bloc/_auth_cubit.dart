@@ -11,12 +11,12 @@ class AuthCubit extends Cubit<AuthState> {
 
 
   // method for login
-  Future<void> login({required String email, required String password}) async {
+  Future<void> login({required String username, required String password}) async {
     // emit loading state
     emit(AuthLoading());
     try {
       // fetch user data from repository
-      final userData = await repo.login(email: email, password: password);
+      final userData = await repo.login(username: username, password: password);
 
       // store in local storage
       await LocalStorage.saveUser(userData);
@@ -29,17 +29,19 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   // method to check if user is already logged in
-  Future<void> checkLogin()async{
+  Future<void> checkLogin() async {
     final userData = await LocalStorage.fetchUser();
 
-    if(userData!=null){
+    if (userData != null) {
       emit(AuthLoggedIn(userData));
+    } else {
+      emit(AuthUnauthenticated());
     }
   }
 
   // method for logout
   Future<void> logout() async {
     await LocalStorage.clearUser();
-    emit(AuthInitial());
+    emit(AuthUnauthenticated());
   }
 }

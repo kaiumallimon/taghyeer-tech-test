@@ -3,34 +3,27 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalStorage {
-  // singleton pattern
-  LocalStorage._privateConstructor();
-  static final LocalStorage instance = LocalStorage._privateConstructor();
+  LocalStorage._();
 
-  // Key for storing user data in local storage
+  static late SharedPreferences _prefs;
+
   static const String _userKey = 'user';
 
-  // Save user data to local storage
-  static Future<void> saveUser(Map<String, dynamic> userData) async {
-    // Get an instance of SharedPreferences and save the user data as a JSON string
-    final preferences = await SharedPreferences.getInstance();
-    // Convert the user data map to a JSON string and save it under the specified key
-    await preferences.setString(_userKey, jsonEncode(userData));
+  static void init(SharedPreferences prefs) {
+    _prefs = prefs;
   }
 
-  // Fetch user data from local storage
-  static Future<Map<String, dynamic>?> fetchUser()async{
-    final preferences = await SharedPreferences.getInstance();
-    final userData = preferences.getString(_userKey);
+  static Future<void> saveUser(Map<String, dynamic> userData) async {
+    await _prefs.setString(_userKey, jsonEncode(userData));
+  }
 
-    if(userData == null) return  null;
-
+  static Future<Map<String, dynamic>?> fetchUser() async {
+    final userData = _prefs.getString(_userKey);
+    if (userData == null) return null;
     return jsonDecode(userData);
   }
 
-  // clear user data from local storage
   static Future<void> clearUser() async {
-    final preferences = await SharedPreferences.getInstance();
-    await preferences.remove(_userKey);
+    await _prefs.remove(_userKey);
   }
 }

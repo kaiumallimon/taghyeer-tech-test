@@ -6,6 +6,8 @@ class AuthInitial extends AuthState {}
 
 class AuthLoading extends AuthState {}
 
+class AuthUnauthenticated extends AuthState {}
+
 class AuthLoggedIn extends AuthState {
   final Map<String, dynamic> userData;
   AuthLoggedIn(this.userData);

@@ -7,12 +7,12 @@ class AuthRepository {
   AuthRepository(this._api);
 
   Future<Map<String, dynamic>> login({
-    required String email,
+    required String username,
     required String password,
   }) async {
     final response = await _api.post(
       AppConstants.loginApiEndpoint,
-      data: {"email": email, "password": password, "expiresInMins": 30},
+      data: {"username": username, "password": password, "expiresInMins": 30},
     );
 
     return response.data;
