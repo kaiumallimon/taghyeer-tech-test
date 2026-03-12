@@ -12,4 +12,8 @@ class AppConstants {
   static const String orDivider = 'Or continue with';
   static const String noAccountPrompt = "Don't have an account? ";
   static const String signUpLabel = 'Sign Up';
+
+  static const String apiBaseUrl = 'https://dummyjson.com';
+  static const int apiConnectTimeoutSeconds = 10;
+  static const int apiReceiveTimeoutSeconds = 10;
 }
